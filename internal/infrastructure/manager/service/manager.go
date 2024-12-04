@@ -18,7 +18,7 @@ type ServiceManager struct {
 // NewServiceManager func is.
 func NewServiceManager(dataStore database.DataStore) manager.DataService {
 	return &ServiceManager{
-		author: authorUC.NewUseCase(dataStore),
+		author: authorUC.NewAuthorUseCase(dataStore),
 		book:   bookUC.NewBookUseCase(dataStore),
 	}
 }
