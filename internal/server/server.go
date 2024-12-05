@@ -3,10 +3,9 @@ package server
 import (
 	"context"
 
+	_ "github.com/jumayevgadam/book-app-with-refreshtoken/docs"
 	"github.com/jumayevgadam/book-app-with-refreshtoken/internal/config"
-	"github.com/jumayevgadam/book-app-with-refreshtoken/internal/infrastructure/controllers/handlers"
 	"github.com/jumayevgadam/book-app-with-refreshtoken/internal/infrastructure/database"
-	"github.com/jumayevgadam/book-app-with-refreshtoken/internal/infrastructure/manager/service"
 	"github.com/jumayevgadam/book-app-with-refreshtoken/pkg/errlst"
 	"github.com/jumayevgadam/book-app-with-refreshtoken/pkg/logger"
 	"github.com/labstack/echo/v4"
@@ -28,22 +27,6 @@ func NewServer(cfg *config.Config, dataStore database.DataStore, logger logger.L
 		DataStore: dataStore,
 		Logger:    logger,
 	}
-}
-
-// MapHandlers.
-func (s *Server) MapHandlers() error {
-	v1 := s.Echo.Group("/api/v1")
-	UseCases := service.NewServiceManager(s.DataStore)
-
-	Handlers := handlers.NewDeliveryManager(UseCases)
-
-	// for authors
-	authorGroup := v1.Group("/author")
-	{
-		authorGroup.POST("/create", Handlers.AuthorDelivery().CreateAuthor())
-	}
-
-	return nil
 }
 
 func (s *Server) Run() error {

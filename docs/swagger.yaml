@@ -1,0 +1,56 @@
+basePath: /api/v1
+host: localhost:4000
+info:
+  contact:
+    email: hypergadam@gmail.com
+    name: Gadam Jumayev
+    url: https://github.com/jumayevgadam
+  description: book app with refresh token.
+  termsOfService: http://swagger.io/terms
+  title: BOOK-APP-WITH-REFRESH-TOKEN api documentation
+  version: "2.0"
+paths:
+  /author/register:
+    post:
+      consumes:
+      - multipart/form-data
+      description: create author with properties.
+      operationId: create-author
+      parameters:
+      - in: formData
+        name: avatar
+        type: string
+      - in: formData
+        name: biography
+        type: string
+      - in: formData
+        name: email
+        required: true
+        type: string
+      - in: formData
+        maxLength: 20
+        minLength: 6
+        name: password
+        required: true
+        type: string
+      - in: formData
+        name: username
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: int
+        "400":
+          description: Bad Request
+          schema: {}
+        "500":
+          description: Internal Server Error
+          schema: {}
+      summary: CREATE-AUTHOR.
+      tags:
+      - AUTHORS
+swagger: "2.0"

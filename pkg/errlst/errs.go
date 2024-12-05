@@ -227,44 +227,44 @@ func ParseErrors(err error) RestErr {
 	switch {
 	// pgx specific errors
 	case errors.Is(err, pgx.ErrNoRows):
-		logger.Warn("Not found error: ", err)
+		logger.Warnf("Not found error: %v\n", err)
 		return NewNotFoundError(err.Error())
 	case errors.Is(err, pgx.ErrTooManyRows):
-		logger.Warn("Conflict error: ", err)
+		logger.Warnf("Conflict error: %v\n", err)
 		return NewConflictError(err.Error())
 
 	// SQLSTATE error
 	case strings.Contains(err.Error(), "SQLSTATE"):
-		logger.Error("SQL error: ", err)
+		logger.Errorf("SQL error: %v\n", err)
 		return ParseSQLErrors(err)
 
 	// Handle strconv.Atoi errors
 	case strings.Contains(err.Error(), ErrSyntax.Error()),
 		strings.Contains(err.Error(), ErrRange.Error()):
-		logger.Warn("bad request error: ", err)
+		logger.Warnf("bad request error: %v\n", err)
 		return NewBadRequestError(err.Error())
 
 		// Handle Validation errors from go-validator/v10
 	case errors.As(err, &validator.ValidationErrors{}):
-		logger.Warn("Validation error: ", err)
+		logger.Warnf("Validation error: %v\n", err)
 		return ParseValidatorError(err)
 
 	// Handle Token or Cookie errors
 	case
 		strings.Contains(strings.ToLower(err.Error()), ErrInvalidJWTToken.Error()),
 		strings.Contains(strings.ToLower(err.Error()), ErrInvalidJWTClaims.Error()):
-		logger.Warn("Unauthorized error: ", err)
+		logger.Warnf("Unauthorized error: %v\n", err)
 		return NewUnauthorizedError(ErrUnauthorized.Error() + err.Error())
 
 	default:
 		// If already a RestErr, return as-is
 		if restErr, ok := err.(RestErr); ok {
-			logger.Info("Custom RestErr: ", restErr)
+			logger.Infof("Custom RestErr: %v\n", restErr.Causes())
 			return restErr
 		}
 
 		// For any other errors
-		logger.Error("Internal server error: ", err)
+		logger.Errorf("Internal server error: %v\n", err)
 		return NewInternalServerError(err.Error())
 	}
 }

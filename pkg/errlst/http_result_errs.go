@@ -14,6 +14,6 @@ func Response(c echo.Context, err error) error {
 	logger.InitLogger()
 
 	errStatus, errResponse := ParseErrors(err).Status(), ParseErrors(err)
-	logger.Error("HTTP Error Response: ", err, c.Request().RemoteAddr)
+	logger.Errorf("HTTP Error Response: %v, address: %v", err.Error(), c.Request().RemoteAddr)
 	return c.JSON(errStatus, errResponse)
 }

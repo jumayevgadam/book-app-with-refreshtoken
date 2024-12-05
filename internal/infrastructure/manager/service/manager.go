@@ -9,6 +9,10 @@ import (
 	bookUC "github.com/jumayevgadam/book-app-with-refreshtoken/internal/modules/book/usecase"
 )
 
+var (
+	_ manager.DataService = (*ServiceManager)(nil)
+)
+
 // Manager Struct.
 type ServiceManager struct {
 	author author.UseCase

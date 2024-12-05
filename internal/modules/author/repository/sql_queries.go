@@ -6,17 +6,51 @@ const (
 		INSERT INTO authors (
 			username, 
 			email, 
-			phone_number, 
 			password, 
 			bio, 
 			avatar
-		) VALUES (
+		) VALUES (																																																				
 			$1, 
 			$2,
 			$3,
-			$4,
-			COALESCE(NULLIF($5, ''), bio),
-			COALESCE(NULLIF($6, ''), avatar)
+			NULLIF($4, ''),
+			NULLIF($5, '')
 		) RETURNING
 		 	id;`
+
+	// getAuthorQuery is.
+	getAuthorQuery = `
+		SELECT 
+			id, username, email, password, bio, avatar
+		FROM 
+			authors
+		WHERE
+			id = $1;`
+
+	// listAuthorQuery is.
+	listAuthorQuery = `
+		SELECT
+			id, username, email, password, bio, avatar
+		FROM	
+			authors
+		ORDER BY id DESC OFFSET $1 LIMIT $3;`
+
+	// updateAuthorQuery is.
+	updateAuthorQuery = `
+		UPDATE authors
+		SET 
+			username = COALESCE(NULLIF($1, ''), username),
+			email = COALESCE(NULLIF($2, ''), email),
+			password = COALESCE(NULLIF($3, ''), password),
+			bio = COALESCE(NULLIF($4, ''), bio),
+			avatar = COALESCE(NULLIF($5, ''), avatar)
+		WHERE 
+			id = $6;`
+
+	// deleteAuthorQuery is.
+	deleteAuthorQuery = `
+		DELETE 
+			FROM authors
+		WHERE 
+			id = $1;`
 )

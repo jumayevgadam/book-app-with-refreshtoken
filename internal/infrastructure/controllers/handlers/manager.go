@@ -7,6 +7,10 @@ import (
 	authorDelivery "github.com/jumayevgadam/book-app-with-refreshtoken/internal/modules/author/delivery"
 )
 
+var (
+	_ controllers.DataHandlers = (*DeliveryManager)(nil)
+)
+
 // DeliveryManager
 type DeliveryManager struct {
 	author author.Delivery

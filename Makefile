@@ -1,4 +1,5 @@
 run:
+	swag init --output ./docs --parseDependency --generalInfo ./cmd/app/main.go
 	go run cmd/app/main.go
 
 migrate_create:

@@ -24,17 +24,28 @@ func NewAuthorDelivery(manage manager.DataService) *AuthorDelivery {
 }
 
 // CreateAuthor delivery.
+// @Summary CREATE-AUTHOR.
+// @Description create author with properties.
+// @Tags AUTHORS
+// @ID create-author
+// @Accept multipart/form-data
+// @Produce json
+// @Param request formData authorModel.Request true "author request payload"
+// @Success 200 {int} int
+// @Failure 400 {object} errlst.RestErr
+// @Failure 500 {object} errlst.RestErr
+// @Router /author/register [post]
 func (d *AuthorDelivery) CreateAuthor() echo.HandlerFunc {
 	return func(c echo.Context) error {
 		var request authorModel.Request
 		err := reqvalidator.ReadRequest(c, &request)
 		if err != nil {
-			return c.JSON(400, errlst.ErrBadRequest)
+			return errlst.Response(c, err)
 		}
 
 		authorID, err := d.manage.AuthorService().CreateAuthor(c.Request().Context(), request)
 		if err != nil {
-			return c.JSON(500, errlst.ErrInternalServer)
+			return errlst.Response(c, err)
 		}
 
 		return c.JSON(200, authorID)

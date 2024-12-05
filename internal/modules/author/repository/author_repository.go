@@ -32,13 +32,12 @@ func (r *AuthorRepository) CreateAuthor(ctx context.Context, authorData authorMo
 		createAuthorQuery,
 		authorData.UserName,
 		authorData.Email,
-		authorData.PhoneNumber,
 		authorData.Password,
 		authorData.Bio,
 		authorData.Avatar,
 	).Scan(&authorID)
 	if err != nil {
-		return -1, errlst.ErrBadQueryParams
+		return -1, errlst.ParseSQLErrors(err)
 	}
 
 	return authorID, nil

@@ -1,2 +1,0 @@
-ALTER TABLE authors
-ADD COLUMN phone_number VARCHAR(50) NOT NULL UNIQUE;

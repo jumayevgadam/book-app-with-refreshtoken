@@ -27,7 +27,7 @@ func NewAuthorUseCase(repo database.DataStore) *AuthorUseCase {
 func (u *AuthorUseCase) CreateAuthor(ctx context.Context, request authorModel.Request) (int, error) {
 	authorID, err := u.repo.AuthorRepo().CreateAuthor(ctx, request.ToPsqlDBStorage())
 	if err != nil {
-		return -1, errlst.ErrBadRequest
+		return -1, errlst.ParseErrors(err)
 	}
 
 	return authorID, nil
