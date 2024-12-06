@@ -51,3 +51,5 @@ func (d *AuthorDelivery) CreateAuthor() echo.HandlerFunc {
 		return c.JSON(200, authorID)
 	}
 }
+
+// GetAuthor delivery.
