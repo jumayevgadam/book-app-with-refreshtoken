@@ -6,7 +6,7 @@ import (
 	_ "github.com/jumayevgadam/book-app-with-refreshtoken/docs"
 	"github.com/jumayevgadam/book-app-with-refreshtoken/internal/config"
 	"github.com/jumayevgadam/book-app-with-refreshtoken/internal/infrastructure/database"
-	"github.com/jumayevgadam/book-app-with-refreshtoken/pkg/errlst"
+	"github.com/jumayevgadam/book-app-with-refreshtoken/pkg/errlist"
 	"github.com/jumayevgadam/book-app-with-refreshtoken/pkg/logger"
 	"github.com/labstack/echo/v4"
 )
@@ -32,7 +32,7 @@ func NewServer(cfg *config.Config, dataStore database.DataStore, logger logger.L
 func (s *Server) Run() error {
 	err := s.MapHandlers()
 	if err != nil {
-		return errlst.ParseErrors(err)
+		return errlist.ParseErrors(err)
 	}
 
 	// Configure Echo's HTTP server
@@ -41,7 +41,7 @@ func (s *Server) Run() error {
 
 	err = s.Echo.Start(":" + s.Cfg.Server.HTTPPort)
 	if err != nil {
-		return errlst.ParseErrors(err)
+		return errlist.ParseErrors(err)
 	}
 
 	return nil
@@ -50,7 +50,7 @@ func (s *Server) Run() error {
 func (s *Server) Stop(ctx context.Context) error {
 	err := s.Echo.Shutdown(ctx)
 	if err != nil {
-		return errlst.ParseErrors(err)
+		return errlist.ParseErrors(err)
 	}
 
 	return nil

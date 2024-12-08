@@ -1,4 +1,4 @@
-package errlst
+package errlist
 
 import (
 	"github.com/jumayevgadam/book-app-with-refreshtoken/internal/config"

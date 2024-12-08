@@ -1,4 +1,4 @@
-package errlst
+package errlist
 
 import (
 	"errors"

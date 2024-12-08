@@ -6,7 +6,7 @@ import (
 
 	"github.com/jackc/pgx/v5/pgxpool"
 	"github.com/jumayevgadam/book-app-with-refreshtoken/internal/config"
-	"github.com/jumayevgadam/book-app-with-refreshtoken/pkg/errlst"
+	"github.com/jumayevgadam/book-app-with-refreshtoken/pkg/errlist"
 )
 
 // Database struct keeps pgxpool.
@@ -26,13 +26,13 @@ func GetDBConnection(ctx context.Context, cfgs config.Config) (*Database, error)
 		cfgs.Postgres.SslMode,
 	))
 	if err != nil {
-		return nil, errlst.ErrDBConnection
+		return nil, errlist.ErrDBConnection
 	}
 
 	// give ping, if error occured return error.
 	err = db.Ping(ctx)
 	if err != nil {
-		return nil, errlst.ErrDBPing
+		return nil, errlist.ErrDBPing
 	}
 
 	return &Database{Db: db}, nil

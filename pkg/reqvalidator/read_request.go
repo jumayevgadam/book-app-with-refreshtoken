@@ -5,7 +5,7 @@ import (
 	"regexp"
 
 	"github.com/go-playground/validator/v10"
-	"github.com/jumayevgadam/book-app-with-refreshtoken/pkg/errlst"
+	"github.com/jumayevgadam/book-app-with-refreshtoken/pkg/errlist"
 	"github.com/labstack/echo/v4"
 )
 
@@ -30,13 +30,13 @@ func ReadRequest(ctx echo.Context, request interface{}) error {
 	// Parse the request body into the provided struct.
 	err := ctx.Bind(request)
 	if err != nil {
-		return errlst.ParseErrors(err)
+		return errlist.ParseErrors(err)
 	}
 
 	// Validate the parsed struct.
 	err = validate.StructCtx(ctx.Request().Context(), request)
 	if err != nil {
-		return errlst.ParseErrors(err)
+		return errlist.ParseErrors(err)
 	}
 
 	return nil

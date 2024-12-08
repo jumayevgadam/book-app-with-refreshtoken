@@ -77,6 +77,72 @@
                     }
                 }
             }
+        },
+        "/author/{author_id}": {
+            "get": {
+                "description": "get author by id.",
+                "consumes": [
+                    "multipart/form-data"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Authors"
+                ],
+                "summary": "Get-Author.",
+                "operationId": "get-author",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "author_id",
+                        "name": "author_id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_jumayevgadam_book-app-with-refreshtoken_internal_domain_models_author.Author"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {}
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {}
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "github_com_jumayevgadam_book-app-with-refreshtoken_internal_domain_models_author.Author": {
+            "type": "object",
+            "properties": {
+                "avatar": {
+                    "type": "string"
+                },
+                "biography": {
+                    "type": "string"
+                },
+                "email": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "password": {
+                    "type": "string"
+                },
+                "username": {
+                    "type": "string"
+                }
+            }
         }
     }
 }

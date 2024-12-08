@@ -7,7 +7,7 @@ import (
 	"github.com/georgysavva/scany/v2/pgxscan"
 	"github.com/jackc/pgx/v5"
 	"github.com/jackc/pgx/v5/pgconn"
-	"github.com/jumayevgadam/book-app-with-refreshtoken/pkg/errlst"
+	"github.com/jumayevgadam/book-app-with-refreshtoken/pkg/errlist"
 )
 
 var _ DB = (*Database)(nil)
@@ -61,18 +61,17 @@ func (d *Database) Exec(ctx context.Context, query string, args ...interface{}) 
 // Begin starts a new transaction.
 func (d *Database) Begin(ctx context.Context, txOpts pgx.TxOptions) (TxOps, error) {
 	if d == nil {
-		return nil, errlst.ErrBeginTransaction
+		return nil, errlist.ErrBeginTransaction
 	}
 
 	c, err := d.Db.Acquire(ctx)
 	if err != nil {
-		return nil, fmt.Errorf("acquire connection: %w", errlst.ErrBeginTransaction)
+		return nil, fmt.Errorf("acquire connection: %w", errlist.ErrBeginTransaction)
 	}
 
 	tx, err := d.Db.BeginTx(ctx, txOpts)
 	if err != nil {
 		c.Release()
-		return nil, fmt.Errorf("connection.Database.Begin: %w", errlst.ErrBeginTransaction)
 	}
 
 	return &Transaction{Tx: tx}, nil

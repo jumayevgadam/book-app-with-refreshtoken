@@ -28,3 +28,35 @@ func (r *Request) ToPsqlDBStorage() Response {
 		Avatar:   r.Avatar,
 	}
 }
+
+// AllUser model.
+type Author struct {
+	ID       int    `json:"id"`
+	Username string `json:"username"`
+	Email    string `json:"email"`
+	Bio      string `json:"biography"`
+	Avatar   string `json:"avatar"`
+	Password string `json:"password"`
+}
+
+// AllUserData model.
+type AuthorData struct {
+	ID       int    `db:"id"`
+	Username string `db:"username"`
+	Email    string `db:"email"`
+	Bio      string `db:"bio"`
+	Avatar   string `db:"avatar"`
+	Password string `db:"password"`
+}
+
+// ToServer sends response to server.
+func (a *AuthorData) ToServer() *Author {
+	return &Author{
+		ID:       a.ID,
+		Username: a.Username,
+		Email:    a.Email,
+		Bio:      a.Bio,
+		Avatar:   a.Avatar,
+		Password: a.Password,
+	}
+}

@@ -1,4 +1,20 @@
 basePath: /api/v1
+definitions:
+  github_com_jumayevgadam_book-app-with-refreshtoken_internal_domain_models_author.Author:
+    properties:
+      avatar:
+        type: string
+      biography:
+        type: string
+      email:
+        type: string
+      id:
+        type: integer
+      password:
+        type: string
+      username:
+        type: string
+    type: object
 host: localhost:4000
 info:
   contact:
@@ -10,6 +26,34 @@ info:
   title: BOOK-APP-WITH-REFRESH-TOKEN api documentation
   version: "2.0"
 paths:
+  /author/{author_id}:
+    get:
+      consumes:
+      - multipart/form-data
+      description: get author by id.
+      operationId: get-author
+      parameters:
+      - description: author_id
+        in: path
+        name: author_id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/github_com_jumayevgadam_book-app-with-refreshtoken_internal_domain_models_author.Author'
+        "400":
+          description: Bad Request
+          schema: {}
+        "500":
+          description: Internal Server Error
+          schema: {}
+      summary: Get-Author.
+      tags:
+      - Authors
   /author/register:
     post:
       consumes:

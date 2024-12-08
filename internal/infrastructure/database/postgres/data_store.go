@@ -12,7 +12,7 @@ import (
 	authorRepository "github.com/jumayevgadam/book-app-with-refreshtoken/internal/modules/author/repository"
 	"github.com/jumayevgadam/book-app-with-refreshtoken/internal/modules/book"
 	bookRepository "github.com/jumayevgadam/book-app-with-refreshtoken/internal/modules/book/repository"
-	"github.com/jumayevgadam/book-app-with-refreshtoken/pkg/errlst"
+	"github.com/jumayevgadam/book-app-with-refreshtoken/pkg/errlist"
 )
 
 var _ database.DataStore = (*DataStore)(nil)
@@ -51,12 +51,12 @@ func (d *DataStore) BooksRepo() book.Repository {
 func (d *DataStore) WithTransaction(ctx context.Context, transactionFn database.Transaction) error {
 	db, ok := d.db.(initializers.DbOps)
 	if !ok {
-		return errlst.ErrTypeAssertInTransaction
+		return errlist.ErrTypeAssertInTransaction
 	}
 
 	tx, err := db.Begin(ctx, pgx.TxOptions{})
 	if err != nil {
-		return errlst.ErrBeginTransaction
+		return errlist.ErrBeginTransaction
 	}
 
 	defer func() {
@@ -72,11 +72,11 @@ func (d *DataStore) WithTransaction(ctx context.Context, transactionFn database.
 
 	err = transactionFn(transactionalDB)
 	if err != nil {
-		return err
+		return errlist.ParseErrors(err)
 	}
 
 	if err = tx.Commit(ctx); err != nil {
-		return errlst.ErrCommitTx
+		return errlist.ErrCommitTx
 	}
 
 	return nil

@@ -21,16 +21,25 @@ const (
 	// getAuthorQuery is.
 	getAuthorQuery = `
 		SELECT 
-			id, username, email, password, bio, avatar
+			id, 
+			username, 
+			email, 
+			password, 
+			COALESCE(bio, '') AS bio, 
+			COALESCE(avatar, '') AS avatar
 		FROM 
 			authors
 		WHERE
 			id = $1;`
 
+	// countAuthorsQuery is.
+	countAuthorsQuery = `
+		SELECT COUNT(id) FROM authors;`
+
 	// listAuthorQuery is.
 	listAuthorQuery = `
 		SELECT
-			id, username, email, password, bio, avatar
+			id, username, email, password, COALESCE(bio, '') AS bio, COALESCE(avatar, '') AS avatar
 		FROM	
 			authors
 		ORDER BY id DESC OFFSET $1 LIMIT $3;`

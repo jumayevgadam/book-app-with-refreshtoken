@@ -3,7 +3,7 @@ package middleware
 import (
 	"time"
 
-	"github.com/jumayevgadam/book-app-with-refreshtoken/pkg/errlst"
+	"github.com/jumayevgadam/book-app-with-refreshtoken/pkg/errlist"
 	"github.com/jumayevgadam/book-app-with-refreshtoken/pkg/utils"
 	"github.com/labstack/echo/v4"
 )
@@ -25,6 +25,6 @@ func (mw *MiddlewareManager) RequestLoggerMiddleware(next echo.HandlerFunc) echo
 		mw.logger.Infof("RequestID: %s, Method: %s, URI: %s, Status: %v, Size: %v, Time: %s",
 			requestID, req.Method, req.URL, status, size, s)
 
-		return errlst.Response(c, err)
+		return errlist.Response(c, err)
 	}
 }

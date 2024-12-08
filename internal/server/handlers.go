@@ -20,6 +20,7 @@ func (s *Server) MapHandlers() error {
 	// for authors.
 	authorGroup := v1.Group("/author")
 	{
+		authorGroup.GET("/:author_id", Handlers.AuthorDelivery().GetAuthor())
 		authorGroup.POST("/register", Handlers.AuthorDelivery().CreateAuthor())
 	}
 

@@ -12,14 +12,14 @@ import (
 	"github.com/jumayevgadam/book-app-with-refreshtoken/internal/infrastructure/database/postgres"
 	"github.com/jumayevgadam/book-app-with-refreshtoken/internal/initializers"
 	"github.com/jumayevgadam/book-app-with-refreshtoken/internal/server"
-	"github.com/jumayevgadam/book-app-with-refreshtoken/pkg/errlst"
+	"github.com/jumayevgadam/book-app-with-refreshtoken/pkg/errlist"
 	"github.com/jumayevgadam/book-app-with-refreshtoken/pkg/logger"
 )
 
 func BootStrap(ctx context.Context) error {
 	cfgs, err := config.LoadConfig()
 	if err != nil {
-		return errlst.ParseErrors(err)
+		return errlist.ParseErrors(err)
 	}
 
 	appLogger := logger.NewApiLogger(cfgs)
@@ -28,7 +28,7 @@ func BootStrap(ctx context.Context) error {
 
 	psqlDB, err := initializers.GetDBConnection(ctx, *cfgs)
 	if err != nil {
-		return errlst.ParseErrors(err)
+		return errlist.ParseErrors(err)
 	}
 	appLogger.Infof("successfully connected\n")
 
@@ -59,7 +59,7 @@ func BootStrap(ctx context.Context) error {
 		appLogger.Infof("Caught signal: %v, initiating graceful shutdown...\n", sig)
 	case err := <-serverErrors:
 		appLogger.Errorf("Server error: %v\n", err.Error())
-		return errlst.ParseErrors(err)
+		return errlist.ParseErrors(err)
 	}
 
 	// Gracefully stop server.
@@ -67,7 +67,7 @@ func BootStrap(ctx context.Context) error {
 	defer cancel()
 
 	if err := srv.Stop(ctx); err != nil {
-		errlst.ParseErrors(err)
+		errlist.ParseErrors(err)
 	}
 
 	appLogger.Info("Server stopped gracefully\n")
